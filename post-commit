@@ -1,0 +1,15 @@
+#!/bin/sh
+
+make
+APP_NAME=`grep GSWAPP_NAME GNUmakefile | sed -E s/^GSWAPP_NAME[:space:]*=[:space:]*//`
+
+PLATFORM=`uname -s`
+
+killall $APP_NAME
+if [ $PLATFORM == "Darwin" ]; then
+    "${APP_NAME}.gswa/Contents/MacOS/${APP_NAME}" &
+else
+    "${APP_NAME}.gswa/${APP_NAME}" &
+fi
+
+exit 0
