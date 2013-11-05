@@ -14,10 +14,12 @@ PLATFORM=`uname -s`
 # This next stanza fails when you have more than one instance of an app
 # I need to find a way to make this relaunch cope with multiple instances
 killall $APP_NAME
-if [ "$PLATFORM" == "Darwin" ]; then
-    "${APP_NAME}.gswa/Contents/MacOS/${APP_NAME}" &
+if [ "${PLATFORM}" = "Darwin" ]; then
+    GSW_PATH="${APP_NAME}.gswa/Contents/MacOS/${APP_NAME}"
 else
-    "${APP_NAME}.gswa/${APP_NAME}" &
+    GSW_PATH="${APP_NAME}.gswa/${APP_NAME}"
 fi
+
+nohup "${GSW_PATH}" &>/dev/null &
 
 exit 0
