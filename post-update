@@ -20,6 +20,6 @@ else
     GSW_PATH="${APP_NAME}.gswa/${APP_NAME}"
 fi
 
-nohup "${GSW_PATH}" &>/dev/null &
+"${GSW_PATH}" >&- 2>&- &
 
 exit 0
