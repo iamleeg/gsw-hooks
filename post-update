@@ -1,0 +1,23 @@
+#!/bin/sh
+
+unset GIT_DIR
+cd ../deploy
+
+git checkout master
+git pull
+make
+
+APP_NAME=`grep GSWAPP_NAME GNUmakefile | sed -E s/^GSWAPP_NAME[:space:]*=[:space:]*//`
+
+PLATFORM=`uname -s`
+
+# This next stanza fails when you have more than one instance of an app
+# I need to find a way to make this relaunch cope with multiple instances
+killall $APP_NAME
+if [ "$PLATFORM" == "Darwin" ]; then
+    "${APP_NAME}.gswa/Contents/MacOS/${APP_NAME}" &
+else
+    "${APP_NAME}.gswa/${APP_NAME}" &
+fi
+
+exit 0
